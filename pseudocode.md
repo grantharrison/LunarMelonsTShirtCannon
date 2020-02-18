@@ -1,6 +1,6 @@
-#  Takes two sequential images from the camera and saves them into numpy arrays
-#  \param wait_time the amount of time to wait between video captures
-#  \return an object containing the two numpy arrays, None on failure
+\# Takes two sequential images from the camera and saves them into numpy arrays
+\# \param wait_time the amount of time to wait between video captures
+\# \return an object containing the two numpy arrays, None on failure
 def load_images(wait_time : int) -> tuple:
 1. Create a video object using OpenCV’s VideoCapture() method.
 2. Check if the operation was successful using the isOpened() method and retry on failure.
@@ -15,9 +15,9 @@ Additional Info:
 Images may be written to file if desired, to allow for later review. Not necessary, but could be useful for testing purposes.
 Additional error checking may be employed.
 
-#  Determines the area of highest motion from a pair of images. 
-#  \param imgs the list of images that are to be compared
-#  \return the 2D bounding box containing the largest “movement” between images
+\# Determines the area of highest motion from a pair of images. 
+\# \param imgs the list of images that are to be compared
+\# \return the 2D bounding box containing the largest “movement” between images
 def detect_motion(imgs):
 1. Check that len(imgs) > 1.
 2. Use Lucas-Kanade Optical Flow (somehow?) to determine apparent motion in images.
@@ -26,10 +26,10 @@ def detect_motion(imgs):
   a. Max area will be set beforehand.
 4. Return the bounding box calculated in Step 3 as a tuple.                     
 
-#  Calculates distance between current position and target. Moves cannon into position.
-#  \param current_position The current coordinates of the cannon.
-#  \param target The bounding box of the target area.
-#  \return True on success, False otherwise.
+\# Calculates distance between current position and target. Moves cannon into position.
+\# \param current_position The current coordinates of the cannon.
+\# \param target The bounding box of the target area.
+\# \return True on success, False otherwise.
 def move_to_target(current_position, target):
 1. Randomly choose a location within the target bounding box and set it as the coordinates to move to.
 2. Calculate manhattan (or euclidean? Needs to be tested later.) distance between the current position and the target coordinates.
