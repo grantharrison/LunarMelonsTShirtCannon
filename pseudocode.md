@@ -1,7 +1,7 @@
 Takes two sequential images from the camera and saves them into numpy arrays
 \param wait_time the amount of time to wait between video captures
 \return an object containing the two numpy arrays, None on failure
-def load_images(wait_time : int) -> tuple:
+  def load_images(wait_time : int) -> tuple:
 1. Create a video object using OpenCV’s VideoCapture() method.
 2. Check if the operation was successful using the isOpened() method and retry on failure.
   a. If it fails a set number of times (say 5), return None.
@@ -11,14 +11,14 @@ def load_images(wait_time : int) -> tuple:
 4. Convert the frames into grayscale using OpenCv’s cvtColor method.
 5. Shutdown the camera using the video object’s release() method.
 6. Return the two grayscale images as a tuple (Immutable => Good).
-Additional Info:
+  Additional Info:
 Images may be written to file if desired, to allow for later review. Not necessary, but could be useful for testing purposes.
 Additional error checking may be employed.
 
 Determines the area of highest motion from a pair of images. 
 \param imgs the list of images that are to be compared
 \return the 2D bounding box containing the largest “movement” between images
-def detect_motion(imgs):
+  def detect_motion(imgs):
 1. Check that len(imgs) > 1.
 2. Use Lucas-Kanade Optical Flow (somehow?) to determine apparent motion in images.
   a. Assumes that images were taken from a static camera and were taken in short succession.
@@ -30,7 +30,7 @@ Calculates distance between current position and target. Moves cannon into posit
 \param current_position The current coordinates of the cannon.
 \param target The bounding box of the target area.
 \return True on success, False otherwise.
-def move_to_target(current_position, target):
+  def move_to_target(current_position, target):
 1. Randomly choose a location within the target bounding box and set it as the coordinates to move to.
 2. Calculate manhattan (or euclidean? Needs to be tested later.) distance between the current position and the target coordinates.
 3. Connect to hardware and move cannon into position needed to hit target.
