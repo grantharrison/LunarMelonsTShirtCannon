@@ -24,7 +24,7 @@ def load_images(wait_time : int) -> tuple:
     return tuple(frames)
 
 def main():
-    load_images(5)
+    print(load_images(5))
 
 if __name__ == "__main__":
     main()
