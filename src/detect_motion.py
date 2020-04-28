@@ -16,34 +16,34 @@ def detect_motion(imgs):
     lk_params = dict(winSize = (15,15), maxLevel = 2, criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
     color = (0, 255, 0)
-    prev_gray = cv2.cvtColor(imgs[0], cv2.COLOR_BGR2GRAY)
+    prev_gray = cv2.cvtColor(imgs[0], cv2.COLOR_BGR2GRAY)                       # goodFeaturesToTrack requires a grayscale image, so we convert it
     prev = cv2.goodFeaturesToTrack(prev_gray, mask=None, **feature_params)
-    mask = np.zeros_like(imgs[0])
+    mask = np.zeros_like(imgs[0])                                               # an empty mask is created to add motion lines to
     
     for i in range(1, len(imgs)):
         frame = imgs[i]
-        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)                          # optical flow requires grayscale images also, so we convert this one too
         
         _next, status, error = cv2.calcOpticalFlowPyrLK(prev_gray, gray, prev, None, **lk_params)
 
-        good_old = prev[status == 1]
-        good_new = _next[status == 1]
+        good_old = prev[status == 1]                                            # obtain the good pixels from the previous (old) image
+        good_new = _next[status == 1]                                           # obtain the good pixels from the next (new) image
 
         for i, (new,old) in enumerate(zip(good_new, good_old)):
             a, b = new.ravel()
             c, d = old.ravel()
             mask = cv2.line(mask, (a,b), (c,d), color, 2)
             frame = cv2.circle(frame, (a,b), 3, color, -1)
-        output = cv2.add(frame, mask)                           # Add mask of lines to original image
+        output = cv2.add(frame, mask)                                           # overlay mask of lines with original image
 
-        prev_gray = gray.copy()
+        prev_gray = gray.copy()                                                 # gray is now the previous image in the loop
         prev = good_new.reshape(-1, 1, 2)
 
         cv2.imshow("Sparse optical flow", output)
         cv2.waitKey()
         cv2.destroyAllWindows()
 
-frames = load.load_images("../tests/test_videos/Mufasa.mp4", 10, 10)
+frames = load.load_images("../tests/test_videos/Mufasa.mp4", video_start=25)
 # cv2.imshow("Frame 1", frames[1])
 # cv2.waitKey()
 # cv2.destroyAllWindows()
